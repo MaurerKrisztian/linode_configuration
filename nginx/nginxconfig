@@ -1,34 +1,21 @@
 server {
-        listen 80 default_server;
-        listen [::]:80 default_server;
-
-root /var/www/html;
-        index index.html index.htm index.nginx-debian.html;
-server_name _;
-location / {
-
-}
-
-
-location /api/ {
-                proxy_pass http://localhost:3000;
-                proxy_http_version 1.1;
-}
-
-}
-
-server {
 
 root /var/www/html;
 index index.html index.htm index.nginx-debian.html;
 server_name mytaskplan.me; # managed by Certbot
 
 location / {
+                proxy_pass http://localhost:8080;
 }
 
 location /api/ {
        proxy_pass http://localhost:3000;
        proxy_http_version 1.1;
+}
+
+location /blog/ {
+                proxy_pass http://blog.mytaskplan.me/;
+                proxy_http_version 1.1;
 }
     listen [::]:443 ssl ipv6only=on; # managed by Certbot
     listen 443 ssl; # managed by Certbot
@@ -65,6 +52,10 @@ location /api/ {
                 proxy_http_version 1.1;
 }
 
+location /blog/ {
+                proxy_pass http://blog.mytaskplan.me/;
+                proxy_http_version 1.1;
+}
 
     listen [::]:443 ssl; # managed by Certbot
     listen 443 ssl; # managed by Certbot
