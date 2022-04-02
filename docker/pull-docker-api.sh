@@ -4,7 +4,7 @@ image_repo=nodeimageprocessing/linode-docker-api:main
 image_name=taskmanager-api
 port=3000
 
-echo "repo: $image_repo imaage_name: $image_name, prot: $port"
+echo "Repository: $image_repo image_name: $image_name, Port: $port"
 
 echo $port
 

@@ -17,12 +17,12 @@ echo "pull ui"
 
 echo "restrt ui"
 
-if [ -z $(lsof -t -i:8080) ]
+if [ -z $(lsof -t -i:$UI_PORT) ]
 then
       echo "prot was closed 8080"
 else
       echo "\$var is NOT empty"
-      kill -9 $(lsof -t -i:8080)
+      kill -9 $(lsof -t -i:$UI_PORT)
 fi
 
-(cd .$UI_DIR && http-server . -p 8080 &)
+(cd .$UI_DIR && http-server . -p $UI_PORT &)

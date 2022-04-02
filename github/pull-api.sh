@@ -5,22 +5,25 @@ echo $github_api
 API_DIR="./TaskManager-api"
 API_PORT=3000
 
-if [ -d "$API_DIR" ]; then
+if [ ! -d "$API_DIR" ]; then
   # Take action if $DIR exists. #
   echo "clone api..."
   git clone $github_api
 fi
 
-echo "pull api"
+echo "Pull api"
 
 (cd $API_DIR && git pull)
+(cd $API_DIR && npm i)
 
-echo "restrt api"
+echo "Restart api (in port: $API_PORT)"
 
-if [ -z $(lsof -t -i:3000) ]
+if [ -z $(lsof -t -i:$API_PORT) ]
 then
-      echo "prot was closed 3000"
+      echo "Port was closed $API_PORT"
 else
-      echo "\$var is NOT empty"
-      kill -9 $(lsof -t -i:3000)
+      echo "Kill PORT $API_PORT"
+      kill -9 $(lsof -t -i:$API_PORT)
 fi
+
+(cd $API_DIR && npm run start &)
