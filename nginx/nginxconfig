@@ -64,14 +64,32 @@ location /blog/ {
     include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
 
-}server {
-    if ($host = test.mytaskplan.me) {
+}
+
+server {
+        server_name blog2.mytaskplan.me;
+        location / {
+            proxy_pass  http://blog.mytaskplan.me/;
+        }
+
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/blog2.mytaskplan.me/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/blog2.mytaskplan.me/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+
+}
+
+
+server {
+    if ($host = blog2.mytaskplan.me) {
         return 301 https://$host$request_uri;
     } # managed by Certbot
 
 
-        listen 80 ;
-        listen [::]:80 ;
-    server_name test.mytaskplan.me;
+        server_name blog2.mytaskplan.me;
+    listen 80;
     return 404; # managed by Certbot
 }
