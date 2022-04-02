@@ -2,7 +2,12 @@
 
 configname=default
 
-cp nginxconfig $configname
+echo "cat ./nginxconfig > /etc/nginx/sites-enabled/$configname"
+cat ./nginxconfig > /etc/nginx/sites-enabled/$configname
 
-cp ./$configname /etc/nginx/sites-enabled/$configname
+echo "sudo systemctl restart nginx"
 sudo systemctl restart nginx
+
+
+
+

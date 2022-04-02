@@ -1,4 +1,3 @@
-root@localhost:~# cat /etc/nginx/sites-available/default
 server {
         listen 80 default_server;
         listen [::]:80 default_server;
@@ -205,6 +204,4 @@ location /api/ {
         listen [::]:80 ;
     server_name test.mytaskplan.me;
     return 404; # managed by Certbot
-
-
 }
