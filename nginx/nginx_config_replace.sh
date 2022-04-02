@@ -4,5 +4,5 @@ configname=default
 
 cp nginxconfig $configname
 
-cp ./nginxconfig /etc/nginx/sites-enabled/$configname
+cp ./$configname /etc/nginx/sites-enabled/$configname
 sudo systemctl restart nginx
