@@ -1,19 +1,19 @@
 server {
+  server_name netdata.mytaskplan.me;
+
+  location / {
+    proxy_pass http://localhost:19999;
+  }
+
+}
+
+
+server {
   server_name test.mytaskplan.me;
 
   location / {
-    proxy_pass http://localhost:8080;
+     proxy_pass http://localhost:19999;
   }
-
-   location /api/ {
-      proxy_pass http://localhost:3000;
-    }
-
-      location /blog/ {
-        proxy_pass http://blog.mytaskplan.me;
-      }
-
-
 
     listen 443 ssl; # managed by Certbot
     ssl_certificate /etc/letsencrypt/live/test.mytaskplan.me/fullchain.pem; # managed by Certbot
@@ -35,6 +35,9 @@ server {
 }
 
 
+
+
+
 server {
   server_name mytaskplan.me;
 
@@ -46,8 +49,9 @@ server {
       proxy_pass http://localhost:3000;
     }
 
-      location /blog/ {
+      location /blog {
         proxy_pass http://blog.mytaskplan.me;
+            proxy_redirect off;
       }
 
 
@@ -70,4 +74,3 @@ server {
     listen 80;
     return 404; # managed by Certbot
 }
-
