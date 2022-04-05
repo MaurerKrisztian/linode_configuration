@@ -1,30 +1,4 @@
 server {
-  server_name wp.mytaskplan.me;
-
-  location / {
-   proxy_pass http://blog.mytaskplan.me;
-    proxy_pass http://localhost:8080;
-  }
-
-   location /api/ {
-      proxy_pass http://localhost:3000;
-    }
-
-   location /blog/ {
-      proxy_pass http://blog.mytaskplan.me;
-   }
-
-   location ~ \.php$ {
-    proxy_pass http://blog.mytaskplan.me;
-       try_files $uri $uri /index.php;
-       include snippets/fastcgi-php.conf;
-       fastcgi_pass unix:/run/php/php7.0-fpm.sock;
-   }
-
-}
-
-
-server {
   server_name test.mytaskplan.me;
 
   location / {
