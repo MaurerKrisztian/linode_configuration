@@ -5,15 +5,23 @@ server {
     proxy_pass http://localhost:19999;
   }
 
+
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/netdata.mytaskplan.me/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/netdata.mytaskplan.me/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
 }
 
 
 server {
   server_name test.mytaskplan.me;
 
-  location / {
-     proxy_pass http://localhost:19999;
-  }
+      location / {
+        proxy_pass http://localhost:3012;
+      }
 
     listen 443 ssl; # managed by Certbot
     ssl_certificate /etc/letsencrypt/live/test.mytaskplan.me/fullchain.pem; # managed by Certbot
@@ -33,10 +41,6 @@ server {
     listen 80;
     return 404; # managed by Certbot
 }
-
-
-
-
 
 server {
   server_name mytaskplan.me;
@@ -73,4 +77,76 @@ server {
   server_name mytaskplan.me;
     listen 80;
     return 404; # managed by Certbot
+}
+
+server {
+    if ($host = netdata.mytaskplan.me) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+  server_name netdata.mytaskplan.me;
+    listen 80;
+    return 404; # managed by Certbot
+}
+
+server {
+  server_name landing.mytaskplan.me;
+
+      location / {
+        proxy_pass http://localhost:4044;
+      }
+
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/landing.mytaskplan.me/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/landing.mytaskplan.me/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+}
+
+server {
+  server_name template.mytaskplan.me;
+
+      location / {
+        proxy_pass http://localhost:3012;
+      }
+
+
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/landing.mytaskplan.me/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/landing.mytaskplan.me/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+}
+
+
+
+server {
+    if ($host = landing.mytaskplan.me) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+  server_name landing.mytaskplan.me;
+    listen 80;
+    return 404; # managed by Certbot
+
+
+}
+
+server {
+    if ($host = template.mytaskplan.me) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+  server_name template.mytaskplan.me;
+    listen 80;
+    return 404; # managed by Certbot
+
+
 }
